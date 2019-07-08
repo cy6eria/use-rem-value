@@ -1,0 +1,30 @@
+{
+  "name": "use-rem-value",
+  "version": "0.0.0",
+  "description": "A simple React Hook that proivide a current font size of the html node. ",
+  "main": "lib/use-rem-value.js",
+  "umd:main": "lib/use-rem-value.umd.js",
+  "module": "lib/use-rem-value.m.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cy6eria/use-rem-value.git"
+  },
+  "scripts": {
+    "build": "rimraf lib && microbundle -o lib/ --name use-rem-value --sourcemap false",
+    "test": "jest"
+  },
+  "keywords": [
+    "react",
+    "hooks"
+  ],
+  "author": "cy6eria",
+  "license": "MIT",
+  "devDependencies": {
+    "microbundle": "^0.11.0",
+    "rimraf": "^2.6.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
+  }
+}
