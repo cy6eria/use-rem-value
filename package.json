@@ -1,6 +1,6 @@
 {
   "name": "use-rem-value",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A simple React Hook that proivide a current font size of the html node. ",
   "main": "lib/use-rem-value.js",
   "umd:main": "lib/use-rem-value.umd.js",
