@@ -1,10 +1,15 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const getRemValue = () => parseInt(window.getComputedStyle(document.getElementsByTagName('html')[0]).getPropertyValue('font-size'));
+const config = { attributes: true, attributeFilter: ['style', 'class', 'id'] };
+
+const getRemValue = () => parseInt(
+    window.getComputedStyle(document.documentElement).getPropertyValue('font-size')
+);
 
 const useRemValue = () => {
     const [remValue, setRemValue] = useState(getRemValue());
-    const handleResize = useCallback(() => {
+
+    const handleChange = useCallback(() => {
         const nextValue = getRemValue();
 
         if (nextValue !== remValue) {
@@ -12,13 +17,28 @@ const useRemValue = () => {
         }
     }, [remValue]);
 
+    const handleAttributesChange = useCallback((mutationsList) => {
+        for (let mutation of mutationsList) {
+            if (mutation.type === 'attributes') {
+                handleChange();
+            }
+        }
+    }, []);
+
     useEffect(() => {
-        window.addEventListener('resize', handleResize);
+        let observer = { disconnect: () => {} };
+        window.addEventListener('resize', handleChange);
+        
+        if (typeof MutationObserver !== 'undefined') {
+            observer = new MutationObserver(handleAttributesChange);
+            observer.observe(document.documentElement, config);  
+        }
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleChange);
+            observer.disconnect();
         };
-    }, [handleResize]);
+    }, [handleChange]);
 
     return remValue;
 };
