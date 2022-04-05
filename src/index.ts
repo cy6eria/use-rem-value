@@ -12,10 +12,8 @@ const useRemValue = () => {
     const handleChange = useCallback(() => {
         const nextValue = getRemValue();
 
-        if (nextValue !== remValue) {
-            setRemValue(nextValue);
-        }
-    }, [remValue]);
+        setRemValue(nextValue);
+    }, []);
 
     const handleAttributesChange = useCallback((mutationsList) => {
         for (let mutation of mutationsList) {
@@ -23,10 +21,10 @@ const useRemValue = () => {
                 handleChange();
             }
         }
-    }, []);
+    }, [handleChange]);
 
     useEffect(() => {
-        let observer = { disconnect: () => {} };
+        let observer: MutationObserver | undefined;
         window.addEventListener('resize', handleChange);
         
         if (typeof MutationObserver !== 'undefined') {
@@ -36,7 +34,7 @@ const useRemValue = () => {
 
         return () => {
             window.removeEventListener('resize', handleChange);
-            observer.disconnect();
+            observer?.disconnect();
         };
     }, [handleChange]);
 
